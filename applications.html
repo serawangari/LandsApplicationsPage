@@ -1,1 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Applications Catalog | ShambaHub</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --teal:#134e5e; --brown:#7b4d2a; --brown-700:#5e3a1f;
+    --card:#ffffff; --muted:#6b7280; --border:#e5e7eb; --radius:14px; --shadow:0 6px 20px rgba(0,0,0,.06);
+    --font:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --tile:#fff8f1;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:#111827;font-family:var(--font)}
+  /* header */
+  .topbar{background:var(--brown);color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+  .brand{display:flex;align-items:center;gap:10px}
+  .logo{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#2ca5a8,#76d0b5)}
+  .crumbs{opacity:.9;font-size:13px}
+  .wrap{max-width:1200px;margin:22px auto;padding:0 20px}
+  h1{margin:0 0 8px 0;font-size:22px}
+  p.lead{margin:0 0 16px 0;color:var(--muted)}
+  /* actions */
+  .actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:10px 0 18px}
+  .search{position:relative;flex:1;min-width:260px;max-width:480px}
+  .search input{width:100%;padding:10px 36px;border:1px solid var(--border);border-radius:12px;background:#fff}
+  .search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:18px;height:18px;opacity:.6}
+  .btn{appearance:none;border:0;background:var(--brown);color:#fff;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer}
+  .btn:hover{background:var(--brown-700)}
+  /* grid */
+  .grid{display:grid;grid-template-columns:repeat(3,minmax(240px,1fr));gap:18px}
+  @media (max-width:1024px){.grid{grid-template-columns:repeat(2,minmax(240px,1fr))}}
+  @media (max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{
+    background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:18px;display:flex;flex-direction:column;gap:12px;position:relative;isolation:isolate;
+  }
+  .card .icon{
+    width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:var(--tile);border:1px solid #ffe5c2;
+  }
+  .card h3{margin:0;font-size:18px}
+  .card p{margin:0;color:var(--muted)}
+  .card .cta{margin-top:auto;display:flex;gap:8px;align-items:center}
+  .card a.cta-btn{
+    text-decoration:none;background:var(--brown);color:#fff;padding:10px 14px;border-radius:10px;font-weight:700;display:inline-block;
+  }
+  .card a.cta-btn:hover{background:var(--brown-700)}
+  .tag{position:absolute;top:12px;right:12px;background:#fff0d9;border:1px solid #ffd7a2;color:#8a4b11;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:700}
+  .highlight{outline:3px solid #ffd7a2; box-shadow:0 0 0 6px rgba(255,215,162,.35)}
+  /* footer */
+  .footer{display:flex;justify-content:space-between;align-items:center;margin-top:18px;color:var(--muted);font-size:12px}
+  /* utility */
+  .hide{display:none!important}
+</style>
+</head>
+<body>
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <strong>ShambaHub</strong><div class="crumbs">Home / Applications / <b>Catalog</b></div>
+      </div>
+    </div>
+    <div id="clock">—</div>
+  </header>
+
+  <main class="wrap">
+    <h1>Applications Catalog</h1>
+    <p class="lead">Pick a service to begin a new application. You can search by name, and we’ll highlight a service when you deep-link with <code>?service=</code>.</p>
+
+    <div class="actions">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7" stroke-width="2"/><path stroke-width="2" d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Search services… (e.g., registration, planning)" aria-label="Search services">
+      </div>
+      <button class="btn" onclick="history.back()">← Back to Dashboard</button>
+    </div>
+
+    <!-- Catalog grid -->
+    <section class="grid" id="grid" aria-label="Services grid">
+      <!-- Cards injected by JS for easy maintainability -->
+    </section>
+
+    <div class="footer">
+      <div id="count">Showing 0 services</div>
+      <a class="btn" href="#" id="payment">Proceed to Payment</a>
+    </div>
+  </main>
+
+<script>
+  // live clock
+  const clockEl = document.getElementById('clock');
+  const tick = ()=> clockEl.textContent = new Intl.DateTimeFormat([], {dateStyle:'long', timeStyle:'medium'}).format(new Date());
+  setInterval(tick,1000); tick();
+
+  // service catalog (edit links to your Experience Builder pages)
+  const SERVICES = [
+    {
+      key:'land-rate-clearance',
+      name:'Land Rate Clearance Services',
+      desc:'Obtain official land rate clearance certificates for transactions, ownership, and compliance.',
+      tag:'Finance',
+      href:'https://experience.arcgis.com/your-app/land-rate-clearance'
+    },
+    {
+      key:'land-registration',
+      name:'Land Registration Services',
+      desc:'Register parcels and update ownership details for legal protection and accurate records.',
+      tag:'Registry',
+      href:'https://experience.arcgis.com/your-app/land-registration'
+    },
+    {
+      key:'physical-planning',
+      name:'Physical Planning Services',
+      desc:'Submit change-of-use, zoning, and development applications for planning approvals.',
+      tag:'Planning',
+      href:'https://experience.arcgis.com/your-app/physical-planning'
+    },
+    {
+      key:'survey-mapping',
+      name:'Survey & Mapping Services',
+      desc:'Request professional surveying, mapping, and boundary demarcation services.',
+      tag:'Survey',
+      href:'https://experience.arcgis.com/your-app/survey-mapping'
+    },
+    {
+      key:'valuation',
+      name:'Valuation Services',
+      desc:'Request property valuation reports for sales, loans, insurance, or official purposes.',
+      tag:'Valuation',
+      href:'https://experience.arcgis.com/your-app/valuation'
+    }
+  ];
+
+  const grid = document.getElementById('grid');
+  const countEl = document.getElementById('count');
+
+  function iconSVG(kind){
+    // simple inline icons (consistent style)
+    const base = {
+      'Finance':'<path d="M4 7h16M4 12h16M4 17h10" stroke-width="2"/>',
+      'Registry':'<rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2"/><path d="M8 8h8M8 12h8M8 16h5" stroke-width="2"/>',
+      'Planning':'<path d="M4 20V6l8-4 8 4v14" stroke-width="2"/><path d="M12 10v10" stroke-width="2"/><path d="M8 14h8" stroke-width="2"/>',
+      'Survey':'<circle cx="12" cy="7" r="3" stroke-width="2"/><path d="M6 21l6-10 6 10" stroke-width="2"/>',
+      'Valuation':'<path d="M12 3v18M5 12h14" stroke-width="2"/>'
+    };
+    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor">${base[kind]||base['Registry']}</svg>`;
+  }
+
+  function render(list){
+    grid.innerHTML = list.map(s => `
+      <article class="card" id="svc-${s.key}" data-key="${s.key}">
+        <span class="tag">${s.tag}</span>
+        <div class="icon" aria-hidden="true">${iconSVG(s.tag)}</div>
+        <h3>${s.name}</h3>
+        <p>${s.desc}</p>
+        <div class="cta">
+          <a class="cta-btn" href="${s.href}" target="_blank" rel="noopener">Start Application</a>
+          <a href="${s.href}" target="_blank" rel="noopener" aria-label="View details" style="color:#7b4d2a;text-decoration:underline">Details</a>
+        </div>
+      </article>
+    `).join('');
+    countEl.textContent = `Showing ${list.length} service${list.length!==1?'s':''}`;
+  }
+
+  // search
+  const q = document.getElementById('q');
+  q.addEventListener('input', e=>{
+    const term = e.target.value.toLowerCase().trim();
+    const list = SERVICES.filter(s => (s.name + ' ' + s.desc + ' ' + s.tag).toLowerCase().includes(term));
+    render(list);
+  });
+
+  // initial render
+  render(SERVICES);
+
+  // deep-link highlight ?service=physical-planning
+  const params = new URLSearchParams(location.search);
+  const svc = params.get('service');
+  if(svc){
+    const el = document.getElementById('svc-'+svc);
+    if(el){ el.classList.add('highlight'); el.scrollIntoView({behavior:'smooth', block:'center'}) }
+  }
+
+  // Payment button (replace with your payment page)
+  document.getElementById('payment').href = 'https://experience.arcgis.com/your-app/payment';
+</script>
+</body>
+</html>
 
