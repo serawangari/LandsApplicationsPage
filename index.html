@@ -7,16 +7,13 @@
 <style>
   :root{
     --bg: #f6f7f9;
-    --teal: #134e5e;
-    --teal-700:#0f3f4c;
+    --lincoln: #195905;        /* Lincoln Green */
+    --lincoln-700:#134203;     /* darker hover */
     --brown:#7b4d2a;
     --brown-700:#5e3a1f;
     --card:#ffffff;
     --muted:#6b7280;
     --border:#e5e7eb;
-    --ok:#16a34a;
-    --warn:#d97706;
-    --pending:#2563eb;
     --radius:12px;
     --shadow:0 6px 20px rgba(0,0,0,.06);
     --font: "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -31,19 +28,19 @@
     display:grid; grid-template-columns: 260px 1fr; min-height:100dvh;
   }
   .sidebar{
-    background:#0e3743; color:#eaf3f6; padding:18px 16px; position:sticky; top:0; height:100dvh;
+    background:var(--lincoln); color:#eaf3e8; padding:18px 16px; position:sticky; top:0; height:100dvh;
     display:flex; flex-direction:column; gap:14px; border-right:1px solid rgba(255,255,255,.08);
   }
   .brand{display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px}
-  .brand .logo{width:34px;height:34px; border-radius:50%; background:linear-gradient(135deg,#2ca5a8,#76d0b5)}
+  .brand .logo{width:34px;height:34px; border-radius:50%; background:linear-gradient(135deg,#a6e39a,#69b457)}
   .brand strong{font-size:16px; letter-spacing:.3px}
   .nav{margin-top:6px; display:flex; flex-direction:column; gap:6px}
   .nav a{
-    display:flex; align-items:center; gap:10px; padding:10px 12px; color:#eaf3f6; text-decoration:none;
+    display:flex; align-items:center; gap:10px; padding:10px 12px; color:#eaf3e8; text-decoration:none;
     border-radius:10px; transition:.2s background;
   }
-  .nav a:hover{ background:rgba(255,255,255,.08) }
-  .nav svg{ width:18px; height:18px; opacity:.9 }
+  .nav a:hover{ background:var(--lincoln-700) }
+  .nav svg{ width:18px; height:18px; opacity:.95 }
 
   .content{ display:flex; flex-direction:column; }
   .topbar{
@@ -58,7 +55,7 @@
   }
   .hstack{ display:flex; gap:12px; align-items:center; flex-wrap:wrap }
   .title{ font-size:20px; font-weight:700; margin:0 0 10px 0 }
-  /* tabs */
+
   .tabs{ display:flex; gap:10px; padding:8px 0 2px }
   .tab{
     display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
@@ -69,16 +66,14 @@
     display:inline-flex; align-items:center; justify-content:center; min-width:22px; height:22px; padding:0 6px;
     border-radius:999px; background:#f3f4f6; font-size:12px; font-weight:700;
   }
-  /* search */
-  .search{
-    margin-left:auto; position:relative; width:320px; max-width:100%;
-  }
+
+  .search{ margin-left:auto; position:relative; width:320px; max-width:100% }
   .search input{
     width:100%; padding:10px 36px 10px 36px; border-radius:10px; border:1px solid var(--border); outline:none;
     background:#fff;
   }
   .search svg{ position:absolute; left:10px; top:50%; transform:translateY(-50%); width:18px; height:18px; opacity:.6 }
-  /* table */
+
   .table-wrap{ margin-top:14px; border:1px solid var(--border); border-radius:12px; overflow:hidden; background:#fff }
   table{ border-collapse:collapse; width:100% }
   thead th{
@@ -100,14 +95,12 @@
   .s-ok{ background:#ecfdf5; color:#065f46 }
   .s-pending{ background:#eff6ff; color:#1e3a8a }
   .s-warn{ background:#fff7ed; color:#9a3412 }
-  /* sticky footer meta */
+
   .meta{ display:flex; justify-content:space-between; align-items:center; padding:10px 14px; font-size:12px; color:var(--muted) }
   .pager{ display:flex; gap:6px; align-items:center }
-  .pager button{
-    border:1px solid var(--border); background:#fff; padding:6px 10px; border-radius:8px; cursor:pointer;
-  }
+  .pager button{ border:1px solid var(--border); background:#fff; padding:6px 10px; border-radius:8px; cursor:pointer }
   .pager button[disabled]{ opacity:.5; cursor:not-allowed }
-  /* responsive */
+
   @media (max-width: 1020px){
     .app{ grid-template-columns: 72px 1fr }
     .brand strong, .nav span{ display:none }
@@ -139,13 +132,22 @@
       <strong>ShambaHub</strong>
     </div>
     <nav class="nav">
-      <a href="#" aria-current="page">
-        <!-- home icon -->
+      <!-- Home (renamed from Services) -->
+      <a href="https://experience.arcgis.com/experience/fc7581fef493414f8c3eccffb505e69c/page/HomePage" aria-label="Home">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M3 10.5 12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 19.5v-9Z"/><path stroke-width="2" d="M9 21V12h6v9"/></svg>
-        <span>Services</span>
+        <span>Home</span>
       </a>
-      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/><path stroke-width="2" d="M20 21a8 8 0 1 0-16 0"/></svg><span>My Properties</span></a>
-      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg><span>My Wallet</span></a>
+      <!-- My Properties -->
+      <a href="https://experience.arcgis.com/experience/fc7581fef493414f8c3eccffb505e69c/page/Parcel-Lookup" aria-label="My Properties">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/><path stroke-width="2" d="M20 21a8 8 0 1 0-16 0"/></svg>
+        <span>My Properties</span>
+      </a>
+      <!-- My Wallet -->
+      <a href="https://daraja-arcgis-platform.vercel.app/" target="_blank" rel="noopener" aria-label="My Wallet">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"/><path stroke-width="2" d="M16 12h.01"/></svg>
+        <span>My Wallet</span>
+      </a>
+      <!-- The rest keep as placeholders or wire as needed -->
       <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M6 8h12M6 12h12M6 16h8"/></svg><span>My Appointments</span></a>
       <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M3 6h18M3 12h18M3 18h18"/></svg><span>My Tickets</span></a>
       <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="m13 16 5-4-5-4v8Z"/><circle cx="7" cy="12" r="3" stroke-width="2"/></svg><span>Notifications</span></a>
@@ -173,7 +175,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7" stroke-width="2"/><path stroke-width="2" d="m20 20-3.5-3.5"/></svg>
             <input id="q" type="search" placeholder="Search reference number..." aria-label="Search applications">
           </div>
-          <button class="btn" style="margin-left:auto">New Application</button>
+          <button class="btn" onclick="window.location.href='applications.html'" style="margin-left:auto">New Application</button>
         </div>
 
         <div class="table-wrap" role="region" aria-label="Applications table">
@@ -188,9 +190,7 @@
                 <th class="cell-actions">Actions</th>
               </tr>
             </thead>
-            <tbody id="tbody">
-              <!-- rows injected by JS -->
-            </tbody>
+            <tbody id="tbody"></tbody>
           </table>
           <div class="meta">
             <div id="count">Items 0–0 of 0</div>
@@ -206,16 +206,16 @@
 </div>
 
 <script>
-  // ---- clock
+  // clock
   const clockEl = document.getElementById('clock');
   const fmt = new Intl.DateTimeFormat([], { dateStyle:'long', timeStyle:'medium' });
   const tick = () => clockEl.textContent = fmt.format(new Date());
   setInterval(tick, 1000); tick();
 
-  // ---- fake data (replace with API if needed)
+  // sample data
   const statuses = ["Completed","Ongoing","Involved"];
   const statusClass = s => s==="Completed" ? "s-ok" : (s==="Ongoing" ? "s-pending" : "s-warn");
-  function randomRef(i){
+  function randomRef(){
     const bank = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789";
     let s="REG/SRCH/";
     for(let k=0;k<8;k++) s += bank[Math.floor(Math.random()*bank.length)];
@@ -225,14 +225,14 @@
     const bucket = ["3 days","7 days","2 weeks","1 month","2 months","6 months"];
     return bucket[Math.floor(Math.random()*bucket.length)];
   }
-  function sample(n=60){
+  function sample(n=120){
     const out=[];
     for(let i=1;i<=n;i++){
       const st = statuses[Math.floor(Math.random()*statuses.length)];
       out.push({
         id: i,
-        ref: randomRef(i),
-        submitted: new Date(2022, Math.floor(Math.random()*12), Math.floor(Math.random()*28)+1, 8, 30, 0),
+        ref: randomRef(),
+        submitted: new Date(2024, Math.floor(Math.random()*12), Math.floor(Math.random()*28)+1, 8, 30, 0),
         elapsed: randomElapsed(),
         status: st
       })
@@ -241,7 +241,6 @@
   }
   const DATA = sample(120);
 
-  // ---- render
   const page = { size: 20, index: 0, tab: 'ongoing', q: '', sort: { key:'id', dir: 'asc' } };
   const tbody = document.getElementById('tbody');
   const countEl = document.getElementById('count');
@@ -255,18 +254,12 @@
 
   function pipe(){
     let rows = DATA.slice();
-
-    // filter by tab
     const map = { ongoing:"Ongoing", completed:"Completed", involved:"Involved" };
     rows = rows.filter(r => r.status === map[page.tab]);
-
-    // search
     if(page.q){
       const q = page.q.toLowerCase();
       rows = rows.filter(r => r.ref.toLowerCase().includes(q));
     }
-
-    // sort
     rows.sort((a,b)=>{
       let A=a[page.sort.key], B=b[page.sort.key];
       if(page.sort.key==='submitted'){ A = +A; B = +B; }
@@ -274,8 +267,6 @@
       if(A>B) return page.sort.dir==='asc' ? 1 : -1;
       return 0;
     });
-
-    // paginate
     const total = rows.length;
     const start = page.index * page.size;
     const end   = Math.min(start + page.size, total);
@@ -301,7 +292,6 @@
     countEl.textContent = `Items ${total? (start+1):0}–${end} of ${total}`;
   }
 
-  // interactions
   document.getElementById('prev').addEventListener('click', ()=>{ page.index--; pipe(); });
   document.getElementById('next').addEventListener('click', ()=>{ page.index++; pipe(); });
   document.getElementById('q').addEventListener('input', (e)=>{ page.q=e.target.value; page.index=0; pipe(); });
