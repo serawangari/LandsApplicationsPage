@@ -1,1 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Applications | ShambaHub</title>
+<style>
+  :root{
+    --bg: #f6f7f9;
+    --teal: #134e5e;
+    --teal-700:#0f3f4c;
+    --brown:#7b4d2a;
+    --brown-700:#5e3a1f;
+    --card:#ffffff;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+    --ok:#16a34a;
+    --warn:#d97706;
+    --pending:#2563eb;
+    --radius:12px;
+    --shadow:0 6px 20px rgba(0,0,0,.06);
+    --font: "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  * { box-sizing: border-box }
+  html,body { height:100% }
+  body{
+    margin:0; background:var(--bg); color:#111827; font-family:var(--font); line-height:1.4;
+  }
+  /* layout */
+  .app{
+    display:grid; grid-template-columns: 260px 1fr; min-height:100dvh;
+  }
+  .sidebar{
+    background:#0e3743; color:#eaf3f6; padding:18px 16px; position:sticky; top:0; height:100dvh;
+    display:flex; flex-direction:column; gap:14px; border-right:1px solid rgba(255,255,255,.08);
+  }
+  .brand{display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px}
+  .brand .logo{width:34px;height:34px; border-radius:50%; background:linear-gradient(135deg,#2ca5a8,#76d0b5)}
+  .brand strong{font-size:16px; letter-spacing:.3px}
+  .nav{margin-top:6px; display:flex; flex-direction:column; gap:6px}
+  .nav a{
+    display:flex; align-items:center; gap:10px; padding:10px 12px; color:#eaf3f6; text-decoration:none;
+    border-radius:10px; transition:.2s background;
+  }
+  .nav a:hover{ background:rgba(255,255,255,.08) }
+  .nav svg{ width:18px; height:18px; opacity:.9 }
+
+  .content{ display:flex; flex-direction:column; }
+  .topbar{
+    background:var(--brown); color:#fff; padding:10px 20px; display:flex; justify-content:space-between; align-items:center;
+  }
+  .crumbs{ opacity:.9; font-size:13px }
+  .clock{ font-weight:600 }
+  .wrap{ padding:22px; }
+  .card{
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow);
+    padding:18px; max-width:1400px; margin-inline:auto;
+  }
+  .hstack{ display:flex; gap:12px; align-items:center; flex-wrap:wrap }
+  .title{ font-size:20px; font-weight:700; margin:0 0 10px 0 }
+  /* tabs */
+  .tabs{ display:flex; gap:10px; padding:8px 0 2px }
+  .tab{
+    display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
+    border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:600; font-size:14px;
+  }
+  .tab[data-active="true"]{ background:#fff6ee; border-color:#ffd7b0; color:var(--brown-700) }
+  .tab .badge{
+    display:inline-flex; align-items:center; justify-content:center; min-width:22px; height:22px; padding:0 6px;
+    border-radius:999px; background:#f3f4f6; font-size:12px; font-weight:700;
+  }
+  /* search */
+  .search{
+    margin-left:auto; position:relative; width:320px; max-width:100%;
+  }
+  .search input{
+    width:100%; padding:10px 36px 10px 36px; border-radius:10px; border:1px solid var(--border); outline:none;
+    background:#fff;
+  }
+  .search svg{ position:absolute; left:10px; top:50%; transform:translateY(-50%); width:18px; height:18px; opacity:.6 }
+  /* table */
+  .table-wrap{ margin-top:14px; border:1px solid var(--border); border-radius:12px; overflow:hidden; background:#fff }
+  table{ border-collapse:collapse; width:100% }
+  thead th{
+    font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); background:#fafafa;
+    border-bottom:1px solid var(--border); padding:12px; text-align:left; position:sticky; top:0; z-index:1;
+  }
+  tbody td{ padding:14px 12px; border-bottom:1px solid var(--border) }
+  tbody tr:hover{ background:#fcfcff }
+  .cell-actions{ text-align:right }
+  .btn{
+    appearance:none; border:0; background:var(--brown); color:#fff; padding:8px 14px; border-radius:10px;
+    font-weight:600; cursor:pointer; transition:.2s transform,.2s background;
+  }
+  .btn:hover{ transform:translateY(-1px); background:var(--brown-700) }
+  .status{
+    display:inline-flex; align-items:center; gap:8px; font-weight:700; padding:6px 10px; border-radius:999px; font-size:12px;
+    background:#eef2ff; color:#1f2a44;
+  }
+  .s-ok{ background:#ecfdf5; color:#065f46 }
+  .s-pending{ background:#eff6ff; color:#1e3a8a }
+  .s-warn{ background:#fff7ed; color:#9a3412 }
+  /* sticky footer meta */
+  .meta{ display:flex; justify-content:space-between; align-items:center; padding:10px 14px; font-size:12px; color:var(--muted) }
+  .pager{ display:flex; gap:6px; align-items:center }
+  .pager button{
+    border:1px solid var(--border); background:#fff; padding:6px 10px; border-radius:8px; cursor:pointer;
+  }
+  .pager button[disabled]{ opacity:.5; cursor:not-allowed }
+  /* responsive */
+  @media (max-width: 1020px){
+    .app{ grid-template-columns: 72px 1fr }
+    .brand strong, .nav span{ display:none }
+    .nav a{ justify-content:center }
+    .search{ width:100% }
+    .hstack{ gap:8px }
+  }
+  @media (max-width: 720px){
+    .tabs{ flex-wrap:wrap }
+    .cell-actions{ text-align:left }
+    thead{ display:none }
+    table, tbody, tr, td{ display:block; width:100% }
+    tbody tr{ padding:10px 12px }
+    tbody td{ border:none; padding:6px 0 }
+    tbody td[data-th]::before{
+      content: attr(data-th) " — "; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.06em;
+      display:inline-block; width:auto; margin-right:8px; font-size:11px;
+    }
+    .table-wrap{ border-radius:12px }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" aria-label="Main">
+    <div class="brand" aria-label="Brand">
+      <div class="logo" aria-hidden="true"></div>
+      <strong>ShambaHub</strong>
+    </div>
+    <nav class="nav">
+      <a href="#" aria-current="page">
+        <!-- home icon -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M3 10.5 12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 19.5v-9Z"/><path stroke-width="2" d="M9 21V12h6v9"/></svg>
+        <span>Services</span>
+      </a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/><path stroke-width="2" d="M20 21a8 8 0 1 0-16 0"/></svg><span>My Properties</span></a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg><span>My Wallet</span></a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M6 8h12M6 12h12M6 16h8"/></svg><span>My Appointments</span></a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M3 6h18M3 12h18M3 18h18"/></svg><span>My Tickets</span></a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="m13 16 5-4-5-4v8Z"/><circle cx="7" cy="12" r="3" stroke-width="2"/></svg><span>Notifications</span></a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path stroke-width="2" d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V22a2 2 0 1 1-4 0v-.07a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H2a2 2 0 1 1 0-4h.07a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06A2 2 0 1 1 6.02 3.3l.06.06c.5.5 1.22.67 1.88.44A1.65 1.65 0 0 0 10 2.27V2a2 2 0 1 1 4 0v.07c0 .67.4 1.27 1 1.51.66.23 1.38.06 1.88-.44l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06c-.5.5-.67 1.22-.44 1.88.24.6.84 1 1.51 1H22a2 2 0 1 1 0 4h-.07c-.67 0-1.27.4-1.51 1Z"/></svg><span>Account</span></a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="content">
+    <div class="topbar">
+      <div class="crumbs">Home / Dashboard / Services / <strong>Applications</strong></div>
+      <div class="clock" id="clock">—</div>
+    </div>
+
+    <div class="wrap">
+      <section class="card">
+        <div class="hstack">
+          <h1 class="title">Search Applications</h1>
+          <div class="tabs" role="tablist" aria-label="Application tabs">
+            <button class="tab" data-tab="ongoing" data-active="true"><span>Ongoing</span><span class="badge" id="b-ongoing">0</span></button>
+            <button class="tab" data-tab="completed"><span>Completed</span><span class="badge" id="b-completed">0</span></button>
+            <button class="tab" data-tab="involved"><span>Involved</span><span class="badge" id="b-involved">0</span></button>
+          </div>
+          <div class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7" stroke-width="2"/><path stroke-width="2" d="m20 20-3.5-3.5"/></svg>
+            <input id="q" type="search" placeholder="Search reference number..." aria-label="Search applications">
+          </div>
+          <button class="btn" style="margin-left:auto">New Application</button>
+        </div>
+
+        <div class="table-wrap" role="region" aria-label="Applications table">
+          <table id="tbl">
+            <thead>
+              <tr>
+                <th data-sort="id">ID</th>
+                <th data-sort="ref">Reference number</th>
+                <th data-sort="submitted">Date of submission</th>
+                <th data-sort="elapsed">Elapsed time</th>
+                <th data-sort="status">Status</th>
+                <th class="cell-actions">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tbody">
+              <!-- rows injected by JS -->
+            </tbody>
+          </table>
+          <div class="meta">
+            <div id="count">Items 0–0 of 0</div>
+            <div class="pager">
+              <button id="prev">&lsaquo; Prev</button>
+              <button id="next">Next &rsaquo;</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<script>
+  // ---- clock
+  const clockEl = document.getElementById('clock');
+  const fmt = new Intl.DateTimeFormat([], { dateStyle:'long', timeStyle:'medium' });
+  const tick = () => clockEl.textContent = fmt.format(new Date());
+  setInterval(tick, 1000); tick();
+
+  // ---- fake data (replace with API if needed)
+  const statuses = ["Completed","Ongoing","Involved"];
+  const statusClass = s => s==="Completed" ? "s-ok" : (s==="Ongoing" ? "s-pending" : "s-warn");
+  function randomRef(i){
+    const bank = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789";
+    let s="REG/SRCH/";
+    for(let k=0;k<8;k++) s += bank[Math.floor(Math.random()*bank.length)];
+    return s;
+  }
+  function randomElapsed(){
+    const bucket = ["3 days","7 days","2 weeks","1 month","2 months","6 months"];
+    return bucket[Math.floor(Math.random()*bucket.length)];
+  }
+  function sample(n=60){
+    const out=[];
+    for(let i=1;i<=n;i++){
+      const st = statuses[Math.floor(Math.random()*statuses.length)];
+      out.push({
+        id: i,
+        ref: randomRef(i),
+        submitted: new Date(2022, Math.floor(Math.random()*12), Math.floor(Math.random()*28)+1, 8, 30, 0),
+        elapsed: randomElapsed(),
+        status: st
+      })
+    }
+    return out;
+  }
+  const DATA = sample(120);
+
+  // ---- render
+  const page = { size: 20, index: 0, tab: 'ongoing', q: '', sort: { key:'id', dir: 'asc' } };
+  const tbody = document.getElementById('tbody');
+  const countEl = document.getElementById('count');
+
+  function updateBadges(){
+    document.getElementById('b-ongoing').textContent = DATA.filter(d=>d.status==="Ongoing").length;
+    document.getElementById('b-completed').textContent = DATA.filter(d=>d.status==="Completed").length;
+    document.getElementById('b-involved').textContent = DATA.filter(d=>d.status==="Involved").length;
+  }
+  updateBadges();
+
+  function pipe(){
+    let rows = DATA.slice();
+
+    // filter by tab
+    const map = { ongoing:"Ongoing", completed:"Completed", involved:"Involved" };
+    rows = rows.filter(r => r.status === map[page.tab]);
+
+    // search
+    if(page.q){
+      const q = page.q.toLowerCase();
+      rows = rows.filter(r => r.ref.toLowerCase().includes(q));
+    }
+
+    // sort
+    rows.sort((a,b)=>{
+      let A=a[page.sort.key], B=b[page.sort.key];
+      if(page.sort.key==='submitted'){ A = +A; B = +B; }
+      if(A<B) return page.sort.dir==='asc' ? -1 : 1;
+      if(A>B) return page.sort.dir==='asc' ? 1 : -1;
+      return 0;
+    });
+
+    // paginate
+    const total = rows.length;
+    const start = page.index * page.size;
+    const end   = Math.min(start + page.size, total);
+    const slice = rows.slice(start, end);
+    render(slice, start, end, total);
+    document.getElementById('prev').disabled = page.index===0;
+    document.getElementById('next').disabled = end>=total;
+  }
+
+  function render(rows, start, end, total){
+    tbody.innerHTML = rows.map(r=>`
+      <tr>
+        <td data-th="ID">${r.id}</td>
+        <td data-th="Reference">${r.ref}</td>
+        <td data-th="Submitted">${new Intl.DateTimeFormat([], {dateStyle:'medium', timeStyle:'short'}).format(r.submitted)}</td>
+        <td data-th="Elapsed">${r.elapsed}</td>
+        <td data-th="Status"><span class="status ${statusClass(r.status)}">${r.status}</span></td>
+        <td class="cell-actions" data-th="Actions">
+          <button class="btn" onclick="alert('Viewing ${r.ref}')">View</button>
+        </td>
+      </tr>
+    `).join('');
+    countEl.textContent = `Items ${total? (start+1):0}–${end} of ${total}`;
+  }
+
+  // interactions
+  document.getElementById('prev').addEventListener('click', ()=>{ page.index--; pipe(); });
+  document.getElementById('next').addEventListener('click', ()=>{ page.index++; pipe(); });
+  document.getElementById('q').addEventListener('input', (e)=>{ page.q=e.target.value; page.index=0; pipe(); });
+
+  document.querySelectorAll('.tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab').forEach(b=>b.dataset.active="false");
+      btn.dataset.active="true";
+      page.tab = btn.dataset.tab; page.index=0; pipe();
+    });
+  });
+
+  document.querySelectorAll('th[data-sort]').forEach(th=>{
+    th.style.cursor='pointer';
+    th.addEventListener('click', ()=>{
+      const key = th.dataset.sort;
+      if(page.sort.key===key){ page.sort.dir = page.sort.dir==='asc' ? 'desc' : 'asc'; }
+      else { page.sort.key=key; page.sort.dir='asc'; }
+      pipe();
+    });
+  });
+
+  pipe();
+</script>
+</body>
+</html>
 
