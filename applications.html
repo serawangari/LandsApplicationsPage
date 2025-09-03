@@ -6,15 +6,25 @@
 <title>Applications Catalog | ShambaHub</title>
 <style>
   :root{
+    /* brand + neutrals */
     --lincoln:#195905; --lincoln-700:#134203;
     --brown:#7b4d2a; --brown-700:#5e3a1f;
     --bg:#f6f7f9; --card:#ffffff; --muted:#6b7280; --border:#e5e7eb;
-    --radius:14px; --shadow:0 10px 30px rgba(0,0,0,.12);
+    --orange:#ea6a1a;
+
+    /* radii, elevation, fonts */
+    --radius:14px; --radius-xl:18px;
+    --shadow:0 10px 30px rgba(0,0,0,.12);
+    --elev-1:0 8px 20px rgba(0,0,0,.06);
+    --elev-2:0 14px 38px rgba(0,0,0,.12);
+    --ring:0 0 0 6px rgba(255,215,162,.35);
     --font:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+
+    /* pills / tiles */
     --pill:#fff7ed; --pill-border:#ffd7a2; --pill-text:#8a4b11;
     --tile:#fff;
-    --orange:#ea6a1a;
   }
+
   *{box-sizing:border-box}
   html,body{height:100%}
   body{margin:0;background:var(--bg);color:#111827;font-family:var(--font)}
@@ -29,131 +39,91 @@
         background:linear-gradient(135deg,#8ee08a,#4f9e41)}
   .crumbs{opacity:.9;font-size:13px}
 
-  .wrap{max-width:1200px;margin:22px auto;padding:0 20px}
-  h1{margin:0 0 8px 0;font-size:22px}
-  p.lead{margin:0 0 16px 0;color:var(--muted)}
+  /* content wrapper (keeps title nicely aligned) */
+  .wrap{max-width:1200px;margin:18px auto;padding:0 20px}
+  h1{margin:0 0 8px 0;font-size:26px;letter-spacing:.2px}
+  p.lead{margin:0 0 16px 0;color:var(--muted);font-size:15px}
 
-  /* ===== Hero services section with background ===== */
+  /* ===== Full-page hero with full-bleed background =====
+     - 100vh height
+     - 100vw width (bleeds outside .wrap)
+     - centered content grid max 1200px
+  */
   .services-hero{
     position:relative; isolation:isolate;
-    min-height:420px; display:flex; align-items:flex-end;
+    min-height:100vh;                /* full viewport height */
+    width:100vw;                     /* full viewport width */
+    margin-left:calc(50% - 50vw);    /* full-bleed left */
+    margin-right:calc(50% - 50vw);   /* full-bleed right */
     background:url('assets/our-team.jpg') center/cover no-repeat;
-    border-radius:16px; overflow:hidden; border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    padding:40px 20px;
+    border-radius:0;                 /* no rounding on full-bleed */
+    box-shadow:var(--elev-1);
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
   }
   .services-hero::before{
     content:""; position:absolute; inset:0;
-    background:rgba(25,89,5,.72); /* Lincoln green overlay */
-    backdrop-filter:saturate(120%) brightness(95%);
+    background:linear-gradient(to bottom, rgba(25,89,5,.82), rgba(25,89,5,.78));
+    backdrop-filter:saturate(120%) brightness(92%);
     z-index:0;
   }
+
+  /* inner grid that holds the 4 cards */
   .services-strip{
     position:relative; z-index:1; width:100%;
-    display:grid; grid-template-columns:repeat(4,1fr); gap:18px;
-    padding:26px; margin:0;
+    display:grid; grid-template-columns:repeat(4,1fr);
+    gap:22px; max-width:1200px; margin:0 auto;
   }
   @media (max-width:1024px){ .services-strip{ grid-template-columns:repeat(2,1fr) } }
   @media (max-width:640px){ .services-strip{ grid-template-columns:1fr } }
 
+  /* cards */
   .service-card{
-    background:var(--tile); border-radius:14px; box-shadow:var(--shadow);
-    padding:18px; text-align:center; border:1px solid rgba(0,0,0,.06);
+    background:rgba(255,255,255,.96);
+    border-radius:16px; border:1px solid rgba(0,0,0,.06);
+    box-shadow:var(--elev-1);
+    padding:18px; text-align:center;
+    backdrop-filter:blur(4px);
+    transition:transform .18s ease, box-shadow .18s ease;
   }
+  .service-card:hover{
+    transform:translateY(-3px);
+    box-shadow:var(--elev-2);
+  }
+
   .service-card .iconwrap{
-    width:64px; height:64px; margin:0 auto 10px; border-radius:14px;
-    display:grid; place-items:center; background:#fff; border:1px solid #ffe5c2;
-    box-shadow:0 8px 20px rgba(0,0,0,.05);
+    width:70px; height:70px; margin:0 auto 10px; border-radius:16px;
+    display:grid; place-items:center; background:#fff;
+    border:1px solid rgba(240,138,38,.35);
+    box-shadow:0 8px 20px rgba(240,138,38,.2);
   }
-  .service-card svg{ width:36px; height:36px; color:var(--orange) }
-  .service-card h3{ margin:8px 0 6px; font-size:18px }
-  .service-card p{ margin:0 0 12px; color:#566; font-size:14px }
+  .service-card svg{ width:36px; height:36px; stroke:var(--orange) }
+
+  .service-card h3{ margin:10px 0 6px; font-size:19px }
+  .service-card p{ margin:0 0 12px; color:#50605a; font-size:14px; line-height:1.45 }
+
   .service-card .btn{
     display:inline-block; text-decoration:none; font-weight:700;
-    background:var(--lincoln); color:#fff; padding:9px 14px; border-radius:10px;
+    background:linear-gradient(#1a5c06,#144404); color:#fff;
+    padding:10px 16px; border-radius:12px; box-shadow:0 2px 0 #0e2f02 inset;
   }
-  .service-card .btn:hover{ background:var(--lincoln-700) }
+  .service-card .btn:hover{ filter:brightness(1.06) }
 
   /* footer row under hero */
   .footer{
+    max-width:1200px; margin:14px auto 0; padding:0 20px;
     display:flex; justify-content:space-between; align-items:center;
-    margin:14px 0 0; color:var(--muted); font-size:12px
+    color:var(--muted); font-size:12px
   }
-  .pill{ background:var(--pill); color:var(--pill-text); border:1px solid var(--pill-border);
-         padding:6px 10px; border-radius:999px; font-weight:700 }
+  .pill{
+    background:var(--pill); color:var(--pill-text); border:1px solid var(--pill-border);
+    padding:6px 10px; border-radius:999px; font-weight:700; box-shadow:0 1px 0 rgba(0,0,0,.04)
+  }
 
-  /* accessibility tweak when tabbed */
-  a.btn:focus-visible{ outline:3px solid #ffd7a2; outline-offset:2px }
-  /* === Applications: visual polish === */
-:root{
-  --radius-xl: 18px;
-  --elev-1: 0 8px 20px rgba(0,0,0,.06);
-  --elev-2: 0 14px 38px rgba(0,0,0,.12);
-  --ring: 0 0 0 6px rgba(255,215,162,.35);
-  --green:#195905; --green-700:#134203; --orange:#f08a26;
-}
-
-/* tighter top space under topbar */
-.wrap{max-width:1200px;margin:18px auto;padding:0 20px}
-
-/* headings */
-h1{font-size:26px;letter-spacing:.2px}
-p.lead{font-size:15px}
-
-/* hero background: stronger blend on small screens */
-.services-hero{
-  min-height: 460px; border-radius: var(--radius-xl);
-  box-shadow: var(--elev-1);
-}
-.services-hero::before{
-  background: linear-gradient(
-    to bottom,
-    rgba(25,89,5,.82),
-    rgba(25,89,5,.78)
-  );
-}
-
-/* card tray spacing */
-.services-strip{gap:22px;padding:28px}
-
-/* card: glassy + lift on hover */
-.service-card{
-  border-radius: 16px;
-  background: rgba(255,255,255,.96);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(0,0,0,.06);
-  box-shadow: var(--elev-1);
-  transition: transform .18s ease, box-shadow .18s ease;
-}
-.service-card:hover{
-  transform: translateY(-3px);
-  box-shadow: var(--elev-2);
-}
-
-/* icon badge: orange halo, white glyph */
-.iconwrap{
-  width:70px;height:70px;border-radius:16px;
-  background: #fff;
-  box-shadow: 0 8px 20px rgba(240,138,38,.2);
-  border: 1px solid rgba(240,138,38,.35);
-}
-.service-card svg{ width:36px;height:36px; stroke: var(--orange) }
-
-/* text rhythm */
-.service-card h3{font-size:19px;margin:10px 0 6px}
-.service-card p{font-size:14px;line-height:1.45;color:#50605a}
-
-/* button: subtle sheen */
-.service-card .btn{
-  background: linear-gradient(#1a5c06,#144404);
-  padding:10px 16px;border-radius:12px;
-  box-shadow: 0 2px 0 #0e2f02 inset;
-}
-.service-card .btn:hover{filter:brightness(1.06)}
-
-/* footer pill */
-.pill{box-shadow: 0 1px 0 rgba(0,0,0,.04)}
-/* accessibility */
-a.btn:focus-visible{outline:3px solid #ffd7a2; box-shadow: var(--ring); outline-offset:2px}
-@media (max-width:1024px){ .services-hero{min-height:520px} }
+  /* accessibility */
+  a.btn:focus-visible{ outline:3px solid #ffd7a2; box-shadow:var(--ring); outline-offset:2px }
 </style>
 </head>
 <body>
