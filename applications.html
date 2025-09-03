@@ -18,7 +18,7 @@
     --elev-1:0 8px 20px rgba(0,0,0,.06);
     --elev-2:0 14px 38px rgba(0,0,0,.12);
     --ring:0 0 0 6px rgba(255,215,162,.35);
-    --font:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --font:"Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
 
     /* pills / tiles */
     --pill:#fff7ed; --pill-border:#ffd7a2; --pill-text:#8a4b11;
@@ -27,7 +27,12 @@
 
   *{box-sizing:border-box}
   html,body{height:100%}
-  body{margin:0;background:var(--bg);color:#111827;font-family:var(--font)}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:#111827;
+    font-family:var(--font);
+  }
 
   /* header */
   .topbar{
@@ -35,8 +40,10 @@
     display:flex;justify-content:space-between;align-items:center
   }
   .brand{display:flex;align-items:center;gap:10px}
-  .logo{width:34px;height:34px;border-radius:50%;
-        background:linear-gradient(135deg,#8ee08a,#4f9e41)}
+  .logo{
+    width:34px;height:34px;border-radius:50%;
+    background:linear-gradient(135deg,#8ee08a,#4f9e41)
+  }
   .crumbs{opacity:.9;font-size:13px}
 
   /* content wrapper (keeps title nicely aligned) */
@@ -44,21 +51,17 @@
   h1{margin:0 0 8px 0;font-size:26px;letter-spacing:.2px}
   p.lead{margin:0 0 16px 0;color:var(--muted);font-size:15px}
 
-  /* ===== Full-page hero with full-bleed background =====
-     - 100vh height
-     - 100vw width (bleeds outside .wrap)
-     - centered content grid max 1200px
-  */
+  /* ===== Full-page hero with full-bleed background ===== */
   .services-hero{
     position:relative; isolation:isolate;
-    min-height:100vh;                /* full viewport height */
-    width:100vw;                     /* full viewport width */
-    margin-left:calc(50% - 50vw);    /* full-bleed left */
-    margin-right:calc(50% - 50vw);   /* full-bleed right */
+    min-height:100vh;
+    width:100vw;
+    margin-left:calc(50% - 50vw);
+    margin-right:calc(50% - 50vw);
     background:url('assets/our-team.jpg') center/cover no-repeat;
     display:flex; align-items:center; justify-content:center;
     padding:40px 20px;
-    border-radius:0;                 /* no rounding on full-bleed */
+    border-radius:0;
     box-shadow:var(--elev-1);
     border-top:1px solid var(--border);
     border-bottom:1px solid var(--border);
