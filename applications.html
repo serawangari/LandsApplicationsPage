@@ -82,6 +82,78 @@
 
   /* accessibility tweak when tabbed */
   a.btn:focus-visible{ outline:3px solid #ffd7a2; outline-offset:2px }
+  /* === Applications: visual polish === */
+:root{
+  --radius-xl: 18px;
+  --elev-1: 0 8px 20px rgba(0,0,0,.06);
+  --elev-2: 0 14px 38px rgba(0,0,0,.12);
+  --ring: 0 0 0 6px rgba(255,215,162,.35);
+  --green:#195905; --green-700:#134203; --orange:#f08a26;
+}
+
+/* tighter top space under topbar */
+.wrap{max-width:1200px;margin:18px auto;padding:0 20px}
+
+/* headings */
+h1{font-size:26px;letter-spacing:.2px}
+p.lead{font-size:15px}
+
+/* hero background: stronger blend on small screens */
+.services-hero{
+  min-height: 460px; border-radius: var(--radius-xl);
+  box-shadow: var(--elev-1);
+}
+.services-hero::before{
+  background: linear-gradient(
+    to bottom,
+    rgba(25,89,5,.82),
+    rgba(25,89,5,.78)
+  );
+}
+
+/* card tray spacing */
+.services-strip{gap:22px;padding:28px}
+
+/* card: glassy + lift on hover */
+.service-card{
+  border-radius: 16px;
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: var(--elev-1);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.service-card:hover{
+  transform: translateY(-3px);
+  box-shadow: var(--elev-2);
+}
+
+/* icon badge: orange halo, white glyph */
+.iconwrap{
+  width:70px;height:70px;border-radius:16px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(240,138,38,.2);
+  border: 1px solid rgba(240,138,38,.35);
+}
+.service-card svg{ width:36px;height:36px; stroke: var(--orange) }
+
+/* text rhythm */
+.service-card h3{font-size:19px;margin:10px 0 6px}
+.service-card p{font-size:14px;line-height:1.45;color:#50605a}
+
+/* button: subtle sheen */
+.service-card .btn{
+  background: linear-gradient(#1a5c06,#144404);
+  padding:10px 16px;border-radius:12px;
+  box-shadow: 0 2px 0 #0e2f02 inset;
+}
+.service-card .btn:hover{filter:brightness(1.06)}
+
+/* footer pill */
+.pill{box-shadow: 0 1px 0 rgba(0,0,0,.04)}
+/* accessibility */
+a.btn:focus-visible{outline:3px solid #ffd7a2; box-shadow: var(--ring); outline-offset:2px}
+@media (max-width:1024px){ .services-hero{min-height:520px} }
 </style>
 </head>
 <body>
