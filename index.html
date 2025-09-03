@@ -121,6 +121,87 @@
     }
     .table-wrap{ border-radius:12px }
   }
+  /* === Dashboard: premium look === */
+:root{
+  --green:#195905; --green-700:#134203;
+  --brown:#7b4d2a; --brown-700:#5e3a1f;
+  --radius:12px; --radius-lg:16px;
+  --elev-1: 0 10px 26px rgba(0,0,0,.06);
+  --border:#e7ebea; --muted:#667085;
+}
+
+/* sidebar refinements */
+.sidebar{
+  background: linear-gradient(180deg, #195905, #134203);
+  border-right: none;
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,.05);
+}
+.nav a{color:#eff8ee}
+.nav a:hover{background:rgba(255,255,255,.08)}
+.brand .logo{background:linear-gradient(135deg,#a1e89c,#5ab34a)}
+
+/* top bar */
+.topbar{box-shadow: 0 1px 0 rgba(0,0,0,.06)}
+.crumbs{opacity:.95}
+
+/* card shell */
+.card{
+  border:1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-1);
+}
+
+/* segmented tabs */
+.tabs{gap:12px}
+.tab{
+  background:#fff; border:1px solid var(--border);
+  box-shadow: 0 2px 0 rgba(0,0,0,.02) inset;
+}
+.tab[data-active="true"]{
+  background:#fff7ef; border-color:#ffd7b0; color:#5e3a1f;
+}
+.tab .badge{
+  background:#f1f5f9; font-weight:800
+}
+
+/* search box */
+.search input{
+  border:1px solid var(--border);
+  box-shadow: 0 1px 0 rgba(0,0,0,.02) inset;
+}
+
+/* table polish */
+.table-wrap{border-radius:14px; overflow:hidden; border:1px solid var(--border)}
+thead th{
+  background:#fbfbfb;
+  font-size:12px; letter-spacing:.06em;
+  color:#6a726f; border-bottom:1px solid var(--border);
+}
+tbody td{border-bottom:1px solid #eef1f0}
+tbody tr:hover{background:#f8fbf7}
+
+/* status chips */
+.status{
+  border:1px solid rgba(0,0,0,.04);
+  padding:6px 12px; border-radius:999px; font-weight:700;
+}
+.s-ok{ background:#ecfdf5; color:#066e45; border-color:#bff1db }
+.s-pending{ background:#eef6ff; color:#174ea6; border-color:#cfe3ff }
+.s-warn{ background:#fff7ed; color:#9a4e12; border-color:#ffe1c2 }
+
+/* action buttons */
+.btn{
+  background: linear-gradient(#7b4d2a,#5e3a1f);
+  box-shadow: 0 2px 0 #462a16 inset;
+  border-radius: 10px;
+}
+.btn:hover{filter:brightness(1.07)}
+
+/* pager/meta */
+.meta{background:#fff; border-top:1px solid var(--border)}
+
+/* mobile table improvements (you already had) */
+tbody td[data-th]::before{ color:#8a948f }
 </style>
 </head>
 <body>
